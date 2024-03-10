@@ -66,10 +66,14 @@ a:hover {
   font-family: var(--mono);
 }
 
-.name span {
+.name-intro span {
   font-size: 4rem;
   color: var(--aqua);
   display: block;
+}
+
+.name-intro {
+  font-family: var(--mono);
 }
 
 #intro h2 {
@@ -104,7 +108,7 @@ a:hover {
   background: linear-gradient(90deg, rgba(255,23,228,1) 0%, rgba(134,251,251,1) 100%);
   height: 2px;
 }
-
+/* 
 nav {
   padding: 3rem 1rem;
   color: var(--white);
@@ -149,6 +153,63 @@ nav [class*="fa-"] {
 
 nav h1 [class*="fa-"] {
   font-size: 100%;
+} */
+
+header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  padding: 30px 1rem;
+}
+
+.nav {
+  justify-self: end;
+}
+
+header > a {
+  text-decoration: none;
+  color: var(--aqua);
+  font-weight: bold;
+}
+
+.name span{
+  color: var(--aqua);
+  display: inline-block;
+  font-size: 30px;
+}
+
+.name a {
+  text-decoration: none;
+}
+
+.name {
+  display: inline-block;
+}
+
+.nav__list {
+  font-family: var(--mono);
+  display: flex;
+  list-style: none;
+  font-size: 20px;
+}
+
+.nav__list--item {
+  margin-right: 2rem;
+}
+
+.nav__list--item a {
+  text-decoration: none;
+  color: var(--white);
+}
+
+
+
+.nav__list--item [class*="fa-"] {
+  color: var(--aqua);
+}
+
+.nav__list--item a:hover, .nav__list--item [class*="fa-"]:hover {
+  color: var(--magenta);
 }
 
 .button {
@@ -242,6 +303,19 @@ img {
   margin: 3rem 0;
 }
 
+.menu {
+  display: none;
+}
+
+.menu path {
+  fill: var(--aqua);
+}
+
+.close {
+  display: none;
+}
+
+
 @media (min-width: 700px) {
   article {
     display: grid;
@@ -285,15 +359,63 @@ img {
 }
 
 @media (min-width: 850px) {
-  nav {
+  header {
     max-width: 1200px;
     margin: 0 auto;
   }
   
-  nav li:first-child {
-    margin-right: auto;
-    flex-basis: auto;
-    text-align: left;
+}
+
+@media (max-width: 830px) {
+
+  .no-scroll {
+    overflow: hidden;
+  }
+  .menu {
+    display: block;
+  }
+
+  .nav__list {
+    padding: 0;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--black);
+    padding-top: 20px;
+    flex-direction: column;
+    left: -100%;
+    font-size: 30px;
+    text-align: center;
+    transition: left .2s linear;
+    line-height: 5rem;
+  }
+
+  .nav-visible {
+    left: 0;
+  }
+
+  .nav__list--item {
+    margin: 0;
+  }
+
+  header {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    justify-content: end;
+    padding: 30px 2rem;
+  }
+
+  header a {
+    justify-self: end;
+  }
+
+  
+  .close-visible {
+    display: block;
+  }
+
+  .menu-hidden {
+    display: none;
   }
 }
 

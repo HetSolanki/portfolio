@@ -381,7 +381,6 @@ img {
     height: 100vh;
     width: 100vw;
     background-color: var(--black);
-    padding-top: 10px;
     flex-direction: column;
     left: -100%;
     font-size: 30px;

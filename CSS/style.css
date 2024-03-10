@@ -107,6 +107,12 @@ a:hover {
 .gradient {
   background: linear-gradient(90deg, rgba(255,23,228,1) 0%, rgba(134,251,251,1) 100%);
   height: 2px;
+  opacity: 0;
+  transition: opacity .2s linear;
+}
+
+.gradient-visible {
+  opacity: 1;
 }
 /* 
 nav {
@@ -383,7 +389,9 @@ img {
     background-color: var(--black);
     flex-direction: column;
     left: -100%;
-    font-size: 30px;
+    top: 65px;
+    padding-top: 20px;
+    font-size: 24px;
     text-align: center;
     transition: left .2s linear;
     line-height: 5rem;
@@ -415,6 +423,10 @@ img {
 
   .menu-hidden {
     display: none;
+  }
+
+  #intro {
+    padding-top: 1rem;
   }
 }
 

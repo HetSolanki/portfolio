@@ -2,6 +2,7 @@
 
 export interface WorkExperience {
   company: string;
+  companyUrl?: string;
   role: string;
   duration: string;
   responsibilities: string[];
@@ -23,6 +24,7 @@ export interface Skills {
 export const workExperience: WorkExperience[] = [
   {
     company: "Evance Services",
+    companyUrl: "https://evanshservices.com/",
     role: "MERN Developer Intern",
     duration: "Jun 2025 - Jul 2025",
     responsibilities: [
@@ -34,6 +36,7 @@ export const workExperience: WorkExperience[] = [
   },
   {
     company: "Rattamaar",
+    companyUrl: "https://rattamaar.com",
     role: "Frontend Developer Intern",
     duration: "Feb 2024 - May 2024",
     responsibilities: [
@@ -45,6 +48,7 @@ export const workExperience: WorkExperience[] = [
   },
   {
     company: "Evance Services",
+    companyUrl: "https://evanshservices.com/",
     role: "Software Developer Intern",
     duration: "May 2023 - Aug 2023",
     responsibilities: [
@@ -59,12 +63,12 @@ export const projects: Project[] = [
   {
     name: "Paaniwale CRM",
     description:
-      "CRM for water suppliers including sales tracking, inventory, order automation, and WhatsApp invoice generation. Includes CI/CD with Docker and NGINX.",
+      "CRM for water suppliers including sales tracking, inventory, order automation, and WhatsApp invoice generation.",
     tech: ["React", "Node.js", "MongoDB", "Docker", "NGINX", "Jenkins"],
     demo: "https://paaniwale.tech",
   },
   {
-    name: "Bitwise AI",
+    name: "Bitwise",
     description:
       "AI-based coding assistant with a VSCode extension. Reads, writes and modifies code with semantic understanding.",
     tech: ["Python", "JavaScript", "VSCode API", "Gemini API"],
@@ -83,5 +87,12 @@ export const skills: Skills = {
   Languages: ["JavaScript", "TypeScript", "Python", "Java"],
   Frontend: ["React.js", "Next.js", "Tailwind CSS"],
   Backend: ["Node.js", "Express.js", "REST APIs"],
-  "Database & DevOps": ["MongoDB", "MySQL", "Docker", "AWS", "Git"],
+  "Database & DevOps": [
+    "MongoDB",
+    "MySQL",
+    "Docker",
+    "AWS",
+    "Git",
+    "Github Actions",
+  ],
 };

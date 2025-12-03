@@ -1,18 +1,55 @@
-// src/components/Portfolio.tsx
 import React, { useEffect, useState } from "react";
 import { workExperience, projects, skills } from "./data/portfolioData";
+import { MdLocationOn } from "react-icons/md";
+import { ChevronsRight, Link } from "lucide-react";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiExpress,
+  SiMongodb,
+  SiPostgresql,
+  SiDocker,
+  SiGit,
+  SiPostman,
+  SiPython,
+  SiGithubactions,
+} from "react-icons/si";
+import { FaAws as SiAmazonaws } from "react-icons/fa6";
 
-type SectionId = "about" | "work" | "projects" | "skills";
+type SectionId = "work" | "projects" | "skills";
 
-const sections: { id: SectionId; label: string; keyHint: string }[] = [
-  { id: "about", label: "About", keyHint: "1" },
-  { id: "work", label: "Work", keyHint: "2" },
-  { id: "projects", label: "Projects", keyHint: "3" },
-  { id: "skills", label: "Skills", keyHint: "4" },
+const sections: { id: SectionId; keyHint: string; label: string }[] = [
+  { id: "work", keyHint: "1", label: "work" },
+  { id: "projects", keyHint: "2", label: "projects" },
+  { id: "skills", keyHint: "3", label: "skills" },
 ];
 
+// Skill icons mapping - THIS IS THE OBJECT YOU WERE LOOKING FOR
+const skillIcons: Record<string, React.ComponentType<{ size?: number }>> = {
+  JavaScript: SiJavascript,
+  TypeScript: SiTypescript,
+  Python: SiPython,
+  Java: SiJavascript,
+  "React.js": SiReact,
+  "Next.js": SiNextdotjs,
+  "Tailwind CSS": SiTailwindcss,
+  "Node.js": SiNodedotjs,
+  "Express.js": SiExpress,
+  "REST APIs": SiPostman,
+  MongoDB: SiMongodb,
+  MySQL: SiPostgresql,
+  Docker: SiDocker,
+  AWS: SiAmazonaws,
+  Git: SiGit,
+  "Github Actions": SiGithubactions,
+};
+
 const Portfolio: React.FC = () => {
-  const [active, setActive] = useState<SectionId>("about");
+  const [active, setActive] = useState<SectionId>("work");
 
   const emailRef = React.useRef<HTMLAnchorElement>(null);
   const linkedinRef = React.useRef<HTMLAnchorElement>(null);
@@ -26,7 +63,6 @@ const Portfolio: React.FC = () => {
     setActive(id);
   };
 
-  // Keyboard shortcuts 1–4 for sections + E/L/G/R for links
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (
@@ -35,14 +71,12 @@ const Portfolio: React.FC = () => {
       )
         return;
 
-      // Section shortcuts
-      if (e.key === "1") scrollTo("about");
-      if (e.key === "2") scrollTo("work");
-      if (e.key === "3") scrollTo("projects");
-      if (e.key === "4") scrollTo("skills");
-
-      // External link shortcuts
       const key = e.key.toLowerCase();
+
+      if (key === "1") scrollTo("work");
+      if (key === "2") scrollTo("projects");
+      if (key === "3") scrollTo("skills");
+
       if (key === "e") emailRef.current?.click();
       if (key === "l") linkedinRef.current?.click();
       if (key === "g") githubRef.current?.click();
@@ -53,7 +87,6 @@ const Portfolio: React.FC = () => {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // Highlight active section on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -62,7 +95,7 @@ const Portfolio: React.FC = () => {
         const id = visible.target.id as SectionId;
         if (sections.some((s) => s.id === id)) setActive(id);
       },
-      { threshold: 0.35 }
+      { threshold: 0.25 }
     );
 
     sections.forEach((s) => {
@@ -74,227 +107,258 @@ const Portfolio: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-[#d4d4d4] font-mono">
-      <div className="max-w-4xl mx-auto px-4 py-10 md:py-14">
-        {/* Header */}
-        <header className="mb-8 md:mb-10">
+    <div className="min-h-screen bg-[#02030a] text-[#d4d4d4] font-mono">
+      <div className="max-w-4xl mx-auto px-4 py-10 md:py-16">
+        <div className="flex flex-wrap gap-6 text-base md:text-xl mb-6">
+          <a
+            ref={emailRef}
+            href="mailto:hetsolanki.work@gmail.com"
+            className="hover:text-green-400 transition-colors"
+          >
+            <span className="text-green-400">[e]</span> email
+          </a>
+          <a
+            ref={githubRef}
+            href="https://github.com/HetSolanki"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-green-400 transition-colors"
+          >
+            <span className="text-green-400">[g]</span> github
+          </a>
+          <a
+            ref={linkedinRef}
+            href="https://www.linkedin.com/in/het-solanki-119476216/"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-green-400 transition-colors"
+          >
+            <span className="text-green-400">[l]</span> linkedin
+          </a>
+          <a
+            ref={resumeRef}
+            href="https://drive.google.com/file/d/18Rwj_4jgkhdbNjtYuVQ1ztIomUqbO7wG/view?usp=sharing"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-green-400 transition-colors"
+          >
+            <span className="text-green-400">[r]</span> resume
+          </a>
+        </div>
+
+        <header className="mb-10 md:mb-12">
           <p className="text-green-500 text-sm mb-1">$ whoami</p>
           <h1 className="text-4xl md:text-5xl text-white font-semibold tracking-tight">
-            Het Solanki
+            Het Solanki.
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 mt-1">
-            Full Stack Developer
-          </p>
-          <p className="text-sm text-gray-500 mt-1">
-            India · Open to Remote Work
+          <p className="flex items-center gap-1 text-sm md:text-base text-gray-500 mt-1">
+            <MdLocationOn className="text-green-400" size={16} />
+            Ahmedabad, India
           </p>
 
-          <div className="flex flex-wrap gap-6 mt-5 text-sm md:text-base text-gray-300">
-            <a
-              ref={emailRef}
-              href="mailto:hetsolanki.work@gmail.com"
-              className="hover:text-green-400 transition-colors"
-            >
-              Email (E)
-            </a>
-            <a
-              ref={linkedinRef}
-              href="https://www.linkedin.com/in/het-solanki-119476216/"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-green-400 transition-colors"
-            >
-              LinkedIn (L)
-            </a>
-            <a
-              ref={githubRef}
-              href="https://github.com/HetSolanki"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-green-400 transition-colors"
-            >
-              GitHub (G)
-            </a>
-            <a
-              ref={resumeRef}
-              href="https://drive.google.com/file/d/18Rwj_4jgkhdbNjtYuVQ1ztIomUqbO7wG/view?usp=sharing"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-green-400 transition-colors"
-            >
-              Resume (R)
-            </a>
-          </div>
+          <p className="text-[15px] md:text-[16px] text-gray-300 mt-5 max-w-2xl leading-relaxed">
+            I am a full-stack developer focused on building reliable, modern web
+            applications. I enjoy turning ideas into clean, scalable products —
+            from APIs and databases to simple, minimal interfaces that feel good
+            to use.
+          </p>
         </header>
 
-        {/* Terminal-style card */}
-        <div className="border border-[#2a2a2a] rounded-2xl overflow-hidden bg-[#050505] shadow-[0_0_40px_rgba(0,0,0,0.75)]">
-          {/* macOS style top bar with 3 dots */}
-          <div className="flex items-center justify-between px-4 py-2 border-b border-[#222] bg-[#101010]">
+        <div className="border border-[#20242f] rounded-2xl overflow-hidden bg-[#05060f] shadow-[0_0_40px_rgba(0,0,0,0.85)]">
+          <div className="flex items-center justify-between px-4 py-2 border-b border-[#1a1d27] bg-[#090a14]">
             <div className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
               <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
               <span className="h-3 w-3 rounded-full bg-[#28c840]" />
             </div>
-            <p className="text-xs text-gray-500">portfolio — bash</p>
+            <p className="text-xs text-gray-500">het@portfolio: ~/site</p>
             <div className="w-12" />
           </div>
 
-          {/* Navigation */}
-          <div className="flex flex-wrap gap-4 px-5 py-3 border-b border-[#1f1f1f] bg-[#070707] text-sm md:text-base">
-            {sections.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => scrollTo(s.id)}
-                className={`flex items-center gap-2 ${
-                  active === s.id
-                    ? "text-green-400 font-semibold"
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                {s.label}
-                <span className="text-[10px] border border-[#333] px-1 rounded text-gray-600">
-                  {s.keyHint}
-                </span>
-              </button>
-            ))}
-            <span className="ml-auto text-[11px] text-gray-600">
-              Shortcuts: 1–4 · E/L/G/R
-            </span>
+          <div className="px-5 py-3 border-b border-[#1a1d27] bg-[#070815]">
+            <div className="flex flex-wrap items-center gap-4 text-sm md:text-base">
+              {sections.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => scrollTo(s.id)}
+                  className={`flex items-center gap-2 transition-colors ${
+                    active === s.id
+                      ? "text-green-400 font-semibold"
+                      : "text-gray-400 hover:text-gray-100"
+                  }`}
+                >
+                  <span className="text-[11px] border border-[#333] px-1 rounded text-gray-500">
+                    {s.keyHint}
+                  </span>
+                  <span className="lowercase">{s.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Content */}
-          <div className="px-6 py-7 space-y-14 text-[17px] leading-[1.8]">
-            {/* About */}
-            <section id="about" className="scroll-mt-28 space-y-4">
-              <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-green-400">
-                <span className="text-green-500">$</span> about
-              </h2>
-
-              <p className="text-gray-200">
-                I am a Full-Stack Developer passionate about building modern,
-                reliable, and user-friendly web solutions. I focus on creating
-                clean, efficient, and scalable applications that help businesses
-                grow digitally. From frontend design to backend logic, I ensure
-                every project is built with performance, security, and usability
-                in mind.
-              </p>
-            </section>
-
-            {/* Work Experience */}
+          <div className="px-6 py-8 space-y-16 text-[16px] md:text-[17px] leading-[1.8]">
             <section id="work" className="scroll-mt-28 space-y-6">
-              <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-green-400">
-                <span className="text-green-500">$</span> work experience
-              </h2>
+              <div className="space-y-1">
+                <h2 className="text-[19px] md:text-[26px] font-semibold text-gray-100 flex items-center gap-2">
+                  <span className="text-green-400 inline-block">
+                    <ChevronsRight size={25} />
+                  </span>
+                  Work experience
+                </h2>
+              </div>
 
-              {workExperience.map((job, i) => (
-                <div
-                  key={i}
-                  className="border-l-2 border-green-700 pl-4 space-y-2"
-                >
-                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-                    <p className="text-white text-xl md:text-2xl font-semibold">
-                      {job.role}
-                    </p>
-                    <p className="text-sm text-gray-400 font-medium">
-                      {job.company}
-                    </p>
-                  </div>
-                  <p className="text-xs md:text-sm text-gray-500">
-                    {job.duration}
-                  </p>
-
-                  <ul className="mt-2 space-y-1.5 text-[15px] text-gray-200">
-                    {job.responsibilities.map((r, j) => (
-                      <li key={j} className="flex gap-2">
-                        <span className="text-green-500 mt-[2px]">›</span>
-                        <span>{r}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <p className="mt-2 text-sm text-gray-400">
-                    Tech:{" "}
-                    <span className="font-medium">{job.tech.join(" · ")}</span>
-                  </p>
-                </div>
-              ))}
-            </section>
-
-            {/* Projects */}
-            <section id="projects" className="scroll-mt-28 space-y-6">
-              <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-green-400">
-                <span className="text-green-500">$</span> projects
-              </h2>
-
-              {projects.map((project, i) => (
-                <div
-                  key={i}
-                  className="border border-[#1b1b1b] rounded-xl p-5 md:p-6 bg-[#080808] space-y-3"
-                >
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                    <h3 className="text-white text-xl md:text-2xl font-semibold">
-                      {project.name}
-                    </h3>
-                    <div className="flex gap-3 text-sm">
-                      {project.demo && (
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="px-3 py-1.5 rounded-full border border-green-700 text-green-400 font-medium hover:bg-green-900/30 transition-colors"
-                        >
-                          Demo
-                        </a>
-                      )}
-                      {project.source && (
-                        <a
-                          href={project.source}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="px-3 py-1.5 rounded-full border border-[#333] text-gray-200 font-medium hover:bg-[#111] transition-colors"
-                        >
-                          Code
-                        </a>
-                      )}
-                    </div>
-                  </div>
-
-                  <p className="text-gray-200">{project.description}</p>
-
-                  <p className="text-sm text-gray-400">
-                    Tech:{" "}
-                    <span className="font-medium">
-                      {project.tech.join(" · ")}
-                    </span>
-                  </p>
-                </div>
-              ))}
-            </section>
-
-            {/* Skills */}
-            <section id="skills" className="scroll-mt-28 space-y-6">
-              <h2 className="text-xl md:text-2xl font-semibold tracking-wide text-green-400">
-                <span className="text-green-500">$</span> skills
-              </h2>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                {Object.entries(skills).map(([category, list]) => (
+              <div className="space-y-6">
+                {workExperience.map((job, i) => (
                   <div
-                    key={category}
-                    className="p-5 rounded-xl border border-[#1b1b1b] bg-[#080808] space-y-2"
+                    key={i}
+                    className="group border border-[#1c2130] bg-[#050814] px-4 py-4 md:px-5 md:py-5 space-y-2 transition-all duration-300 ease-out hover:border-[#7dff7d] hover:bg-[#050d1b] hover:-translate-y-[3px] hover:shadow-[0_0_30px_rgba(0,255,120,0.18)]"
                   >
-                    <p className="text-white text-lg font-semibold">
-                      {category}
-                    </p>
-                    <p className="text-sm text-gray-200">{list.join(" · ")}</p>
+                    <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
+                      <div>
+                        {"companyUrl" in job && (job as any).companyUrl ? (
+                          <a
+                            href={(job as any).companyUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 text-[17px] md:text-[20px] text-gray-100 font-semibold transition-colors group-hover:text-green-300"
+                          >
+                            <span>{job.company}</span>
+                            <span className="opacity-0 group-hover:opacity-100 text-[17px] -translate-y-[1px] transition-opacity duration-200">
+                              ↗
+                            </span>
+                          </a>
+                        ) : (
+                          <p className="text-[16px] md:text-[20px] text-gray-100 font-semibold transition-colors group-hover:text-green-300">
+                            {job.company}
+                          </p>
+                        )}
+                        <p className="text-xs uppercase tracking-wide text-gray-500">
+                          {job.role} · {job.duration}
+                        </p>
+                      </div>
+                    </div>
+
+                    <ul className="mt-2 space-y-1.5 text-[14px] md:text-[15px] text-gray-200">
+                      {job.responsibilities.map((r, j) => (
+                        <li key={j} className="flex gap-2">
+                          <span className="mt-[7px] h-[3px] w-[3px] rounded-full bg-gray-400 group-hover:bg-[#7dff7d] transition-colors" />
+                          <span>{r}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {job.tech.map((t, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[11px] md:text-[12px] rounded-full border border-[#2a3245] bg-[#080d1e] px-2.5 py-1 text-gray-200"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
             </section>
 
-            {/* Footer */}
-            <footer className="border-t border-[#1c1c1c] pt-4 mt-2 text-xs md:text-sm text-gray-500 flex flex-wrap items-center justify-between gap-2">
+            <section id="projects" className="scroll-mt-28 space-y-6">
+              <div className="space-y-1">
+                <h2 className="text-[19px] md:text-[26px] font-semibold text-gray-100 flex items-center gap-2">
+                  <span className="text-green-400 inline-block">
+                    <ChevronsRight size={25} />
+                  </span>
+                  Projects
+                </h2>
+              </div>
+
+              <div className="space-y-5">
+                {projects.map((project, i) => (
+                  <div
+                    key={i}
+                    className="group border border-[#1c2130] bg-[#050814] px-4 py-4 md:px-5 md:py-5 transition-all duration-300 ease-out hover:border-[#7dff7d] hover:bg-[#050d1b] hover:-translate-y-[3px] hover:shadow-[0_0_30px_rgba(0,255,120,0.18)]"
+                  >
+                    <div className="flex justify-between gap-2 mb-2 items-center">
+                      <p className="text-[17px] md:text-[20px] text-gray-100 font-semibold transition-colors group-hover:text-green-300">
+                        {project.name}
+                      </p>
+
+                      {(project.demo || project.source) && (
+                        <a
+                          href={project.demo || project.source}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-gray-400 hover:text-green-300 transition-colors"
+                          aria-label="Open project"
+                        >
+                          <Link className="w-5 h-5" />
+                        </a>
+                      )}
+                    </div>
+
+                    <p className="text-[14px] md:text-[15px] text-gray-200 mb-3">
+                      {project.description}
+                    </p>
+
+                    <div className="space-y-1">
+                      <div className="flex flex-wrap gap-2 text-[11px] md:text-[12px] text-gray-200">
+                        {project.tech.map((t, idx) => (
+                          <span
+                            key={idx}
+                            className="rounded-md border border-[#272a38] bg-[#090c1a] px-2.5 py-1"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section id="skills" className="scroll-mt-28 space-y-6">
+              <div className="space-y-1">
+                <h2 className="text-[19px] md:text-[26px] font-semibold text-gray-100 flex items-center gap-2">
+                  <span className="text-green-400 inline-block">
+                    <ChevronsRight size={25} />
+                  </span>{" "}
+                  Skills
+                </h2>
+              </div>
+
+              <div className="border border-[#1c2130] bg-[#050814] px-4 py-5 md:px-6 md:py-6 transition-all duration-300 ease-out hover:border-[#7dff7d]/60 hover:bg-[#050d1b]">
+                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3 md:gap-4">
+                  {Object.entries(skills).map(([category, list]) =>
+                    list.map((skill, idx) => {
+                      const IconComponent = skillIcons[skill];
+                      const randomDelay = Math.random() * 0.3;
+
+                      return (
+                        <div
+                          key={`${category}-${idx}`}
+                          className="group relative flex items-center justify-center aspect-square rounded-lg border border-[#2a3245] bg-[#080d1e] text-gray-300 transition-all duration-200 hover:border-[#7dff7d] hover:bg-[#0a1420] hover:text-green-300 hover:shadow-[0_0_20px_rgba(0,255,120,0.25)] hover:-translate-y-[3px] hover:scale-110 cursor-default"
+                          style={{ transitionDelay: `${randomDelay}s` }}
+                        >
+                          {IconComponent ? (
+                            <IconComponent size={25} />
+                          ) : (
+                            <span className="text-[10px] font-semibold text-center px-1">
+                              {skill.slice(0, 3).toUpperCase()}
+                            </span>
+                          )}
+                          <span className="absolute -top-9 left-1/2 -translate-x-1/2 bg-[#1a1d27] text-[11px] px-2.5 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10 shadow-lg border border-[#2a3245]">
+                            {skill}
+                          </span>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            </section>
+
+            <footer className="border-t border-[#1a1d27] pt-4 mt-2 text-[11px] md:text-xs text-gray-500 flex flex-wrap items-center justify-center gap-2">
               <span>© {new Date().getFullYear()} Het Solanki</span>
             </footer>
           </div>
